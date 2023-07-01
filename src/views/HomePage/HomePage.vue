@@ -9,19 +9,38 @@
       </h2>
     </div>
     <div class="searchbar">
-      <input type="text" placeholder="Ask me anything" />
+      <input v-model="input" type="text" placeholder="Ask me anything" />
     </div>
     <div class="SearchBtn">
-      <button>Ai Search</button>
+      <button @click="askmsg">Ai Search</button>
       <button>Go To Answer</button>
     </div>
     <div class="copy-url-container">
       <input type="text" value="https://www.ai.com/" />
       <button>Copy Link</button>
     </div>
+    <div class="searchbar">
+       <div v-html="answer"></div>
+      </div>
   </div>
 </template>
-<script></script>
+<script>
+import { askWord } from '@/api/text';
+export default {
+  data() {
+    return {
+      input: '',
+      answer:''
+    }
+  },
+  methods: {
+    async askmsg() {
+      const res = await askWord(this.input)
+      this.answer = res.data.choices[0].text
+    }
+  }
+}
+</script>
 <style>
 .AksAi {
   display: flex;
